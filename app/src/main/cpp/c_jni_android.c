@@ -14,16 +14,16 @@
 
 JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(
         JNIEnv *env, jclass cls);
-JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(stringJni)(
+JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniTrendsString)(
         JNIEnv *env, jclass cls,jstring);
 
 static JNINativeMethod SDLActivity_tab[] = {
         {"nativeSetupJNI",   "()I",                  SDL_JAVA_INTERFACE(nativeSetupJNI)},
-        {"stringJni",   "(Ljava/lang/String;)Ljava/lang/String;",                  SDL_JAVA_INTERFACE(stringJni)},
+        {"jniTrendsString",   "(Ljava/lang/String;)Ljava/lang/String;",                  SDL_JAVA_INTERFACE(jniTrendsString)},
 };
 
-static jmethodID jniEvent;
-static jmethodID stringJni;
+static jmethodID jniTrendsOnEvent;
+static jmethodID jniTrendsString;
 static pthread_key_t mThreadKey;
 static pthread_once_t key_once = PTHREAD_ONCE_INIT;
 static JavaVM *mJavaVM = NULL;
@@ -107,10 +107,19 @@ Android_JNI_CreateKey_once(void)
 }
 
 
+void Android_JNI_jniTrendsOnEvent(int w, int h)
+{
+    JNIEnv *env = Android_JNI_GetEnv();
+
+//    jstring jhint = (*env)->NewStringUTF(env, (hint ? hint : ""));
+    (*env)->CallStaticVoidMethod(env, mActivityClass, jniTrendsOnEvent, w, h );
+//    (*env)->DeleteLocalRef(env, jhint);
+}
 
 /* Activity initialization -- called before SDL_main() to initialize JNI bindings */
-JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(stringJni)(JNIEnv *env, jclass cls,jstring s)
+JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniTrendsString)(JNIEnv *env, jclass cls,jstring s)
 {
+    Android_JNI_jniTrendsOnEvent(0,1);
     return s;
 //    return (*env)->NewStringUTF(env,s);
 }
@@ -135,18 +144,11 @@ JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(JNIEnv *env, jclass cls
         __android_log_print(ANDROID_LOG_ERROR, "SDL", "failed to found a JavaVM");
     }
 
-    jniEvent = (*env)->GetStaticMethodID(env, mActivityClass, "jniOnEvent","(II)V");
-    stringJni = (*env)->GetStaticMethodID(env, mActivityClass, "stringJni","(Ljava/lang/String;)Ljava/lang/String;");
+    jniTrendsOnEvent = (*env)->GetStaticMethodID(env, mActivityClass, "jniTrendsOnEvent","(II)V");
+    jniTrendsString = (*env)->GetStaticMethodID(env, mActivityClass, "jniTrendsString","(Ljava/lang/String;)Ljava/lang/String;");
 
 }
 
 
 
-void Android_JNI_jniOnEvent(int w, int h)
-{
-    JNIEnv *env = Android_JNI_GetEnv();
 
-//    jstring jhint = (*env)->NewStringUTF(env, (hint ? hint : ""));
-    (*env)->CallStaticVoidMethod(env, mActivityClass, jniEvent, w, h );
-//    (*env)->DeleteLocalRef(env, jhint);
-}

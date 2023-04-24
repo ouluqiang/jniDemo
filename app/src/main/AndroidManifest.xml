@@ -4,6 +4,7 @@
     package="com.tangchengyuzhou.jnidemo" >
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,11 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JniDemo"
         tools:targetApi="31" >
-        <activity
-            android:name=".DemoActivity"
-            android:exported="false"
-            android:label="@string/title_activity_demo"
-            android:theme="@style/Theme.JniDemo.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true" >

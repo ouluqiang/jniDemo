@@ -19,16 +19,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var jni=NativeJavaJni()
+        NativeJavaJni.nativeSetupJNI()
         // Example of a call to a native method
 //        binding.sampleText.text = NativeJni.stringFromJNI()
-        lifecycleScope.launch {
-            NativeJavaJni.nativeSetupJNI()
-//            binding.sampleText.text = jni.stringFromJNI()
-            binding.sampleText.text = NativeJavaJni.stringStaticFromJNI()
-        }
-        binding.sampleText.setOnClickListener {
+//        lifecycleScope.launch {
+//            binding.tvNotStatic.text = jni.stringFromJNI()
+//            binding.tvStatic.text = NativeJavaJni.stringStaticFromJNI()
+//        }
+        binding.tvNotStatic.setOnClickListener {
             i++;
-            binding.sampleText.text = NativeJavaJni.stringJni("点击"+i)
+            binding.tvNotStatic.text = jni.stringFromJNI()
+        }
+        binding.tvStatic.setOnClickListener {
+            i++;
+            binding.tvStatic.text = NativeJavaJni.stringStaticFromJNI()
+        }
+        binding.tvNoStaticC.setOnClickListener {
+//            i++;
+            binding.tvNoStaticC.text = jni.notStaticJNIString()
+        }
+        binding.tvStaticC.setOnClickListener {
+//            i++;
+            binding.tvStaticC.text = NativeJavaJni.stringStaticFromJNI()
+        }
+        binding.tvTrends.setOnClickListener {
+            i++;
+            binding.tvTrends.text = NativeJavaJni.jniTrendsString("动态 c调用java  "+i)
         }
     }
 

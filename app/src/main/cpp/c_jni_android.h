@@ -4,7 +4,7 @@
 #include <jni.h>
 JNIEnv *Android_JNI_GetEnv(void);
 
-extern DECLSPEC void Android_JNI_jniOnEvent(int w, int h);
+extern DECLSPEC void Android_JNI_jniTrendsOnEvent(int w, int h);
 
 #ifndef JNIDEMO_C_JNI_ANDROID_H
 #define JNIDEMO_C_JNI_ANDROID_H
