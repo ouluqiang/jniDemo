@@ -4,7 +4,7 @@
 
 #include <pthread.h>
 #include <jni.h>
-#include <android/log.h>
+#include "log.h"
 
 #define SDL_arraysize(array)    (sizeof(array)/sizeof(array[0]))
 //包名
@@ -15,16 +15,24 @@
 
 JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(
         JNIEnv *env, jclass cls);
+//JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeJNI)(
+//        JNIEnv *env, jobject cls);
 JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniStaticTrendsString)(
+        JNIEnv *env, jclass cls,jstring);
+JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniTrendsString)(
         JNIEnv *env, jclass cls,jstring);
 
 static JNINativeMethod SDLActivity_tab[] = {
         {"nativeSetupJNI",   "()I",                  SDL_JAVA_INTERFACE(nativeSetupJNI)},
+//        {"nativeJNI",   "()I",                  SDL_JAVA_INTERFACE(nativeJNI)},
         {"jniStaticTrendsString",   "(Ljava/lang/String;)Ljava/lang/String;",                  SDL_JAVA_INTERFACE(jniStaticTrendsString)},
+        {"jniTrendsString",   "(Ljava/lang/String;)Ljava/lang/String;",                  SDL_JAVA_INTERFACE(jniTrendsString)},
 };
 
 static jmethodID jniStaticTrendsOnEvent;
 static jmethodID jniStaticTrendsString;
+static jmethodID jniTrendsString;
+static jmethodID jniTrendsOnEvent;
 
 
 
@@ -167,6 +175,9 @@ JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(JNIEnv *env, jclass cls
 
     jniStaticTrendsOnEvent = (*env)->GetStaticMethodID(env, mActivityClass, "jniStaticTrendsOnEvent","(II)V");
     jniStaticTrendsString = (*env)->GetStaticMethodID(env, mActivityClass, "jniStaticTrendsString","(Ljava/lang/String;)Ljava/lang/String;");
+    jniTrendsString = (*env)->GetMethodID(env, mActivityClass, "jniTrendsString","(Ljava/lang/String;)Ljava/lang/String;");
+
+//    jniTrendsOnEvent = (*env)->GetMethodID(env, mActivityClass, "jniTrendsOnEvent","(II)V");
 
 }
 
@@ -185,6 +196,23 @@ void Android_JNI_jniStaticTrendsOnEvent(int w, int h)
 JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniStaticTrendsString)(JNIEnv *env, jclass cls,jstring s)
 {
     Android_JNI_jniStaticTrendsOnEvent(0,1);
+    return s;
+//    return (*env)->NewStringUTF(env,s);
+}
+
+//void Android_JNI_jniTrendsOnEvent(int w, int h)
+//{
+//    JNIEnv *env = Android_JNI_GetEnv();
+//
+////    jstring jhint = (*env)->NewStringUTF(env, (hint ? hint : ""));
+//    (*env)->CallVoidMethod(env, mActivityClass, jniTrendsOnEvent, w, h );
+////    (*env)->DeleteLocalRef(env, jhint);
+//}
+
+JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniTrendsString)(JNIEnv *env, jclass cls,jstring s)
+{
+    log_info("动态注册 非静态调用")
+//    Android_JNI_jniTrendsOnEvent(10,11);
     return s;
 //    return (*env)->NewStringUTF(env,s);
 }

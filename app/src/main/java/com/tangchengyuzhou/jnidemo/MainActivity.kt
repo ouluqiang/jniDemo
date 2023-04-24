@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
             i++;
             binding.tvTrends.text = NativeJavaJni.jniStaticTrendsString("动态 静态c调用java  "+i)
         }
-//        binding.tvNoTrends.setOnClickListener {
-//            i++;
-//            binding.tvNoTrends.text = jni.jniTrendsString("动态 no c调用java  "+i)
-//        }
+        binding.tvNoTrends.setOnClickListener {
+            i++;
+            binding.tvNoTrends.text = jni.jniTrendsString("动态 no c调用java  "+i)
+        }
     }
 
 }
