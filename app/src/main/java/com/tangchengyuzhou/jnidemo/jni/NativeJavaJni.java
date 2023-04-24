@@ -20,7 +20,7 @@ public class NativeJavaJni {
      * 非静态函数
      * 静态java调用c
      */
-     public native String stringFromJNI();
+//     public native String stringFromJNI();
      public native String notStaticJNIString();
 
 

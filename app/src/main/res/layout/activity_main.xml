@@ -21,20 +21,20 @@
         android:gravity="center"
         android:text="静态调用 静态函数java 调用c"
         />
-    <TextView
-        android:id="@+id/tv_no_static_c"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="静态调用 非静态函数c调用java"
-        />
-    <TextView
-        android:id="@+id/tv_static_c"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="静态调用 静态函数c调用java"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_no_static_c"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="静态调用 非静态函数c调用java"-->
+<!--        />-->
+<!--    <TextView-->
+<!--        android:id="@+id/tv_static_c"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="静态调用 静态函数c调用java"-->
+<!--        />-->
     <TextView
         android:id="@+id/tv_trends"
         android:layout_width="match_parent"

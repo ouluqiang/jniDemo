@@ -28,20 +28,20 @@ class MainActivity : AppCompatActivity() {
 //        }
         binding.tvNotStatic.setOnClickListener {
             i++;
-            binding.tvNotStatic.text = jni.stringFromJNI()
+            binding.tvNotStatic.text = jni.notStaticJNIString()
         }
         binding.tvStatic.setOnClickListener {
             i++;
             binding.tvStatic.text = NativeJavaJni.stringStaticFromJNI()
         }
-        binding.tvNoStaticC.setOnClickListener {
-//            i++;
-            binding.tvNoStaticC.text = jni.notStaticJNIString()
-        }
-        binding.tvStaticC.setOnClickListener {
-//            i++;
-            binding.tvStaticC.text = NativeJavaJni.stringStaticFromJNI()
-        }
+//        binding.tvNoStaticC.setOnClickListener {
+////            i++;
+//            binding.tvNoStaticC.text = jni.notStaticJNIString()
+//        }
+//        binding.tvStaticC.setOnClickListener {
+////            i++;
+//            binding.tvStaticC.text = NativeJavaJni.stringStaticFromJNI()
+//        }
         binding.tvTrends.setOnClickListener {
             i++;
             binding.tvTrends.text = NativeJavaJni.jniTrendsString("动态 c调用java  "+i)

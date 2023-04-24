@@ -7,14 +7,14 @@ extern "C" {
 extern void Android_JNI_jniTrendsOnEvent(int event, int err);
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_stringFromJNI(
-        JNIEnv* env,
-        jobject /* this */) {
-    std::string hello = "No static Hello world from C++";
-//    Android_JNI_jniTrendsOnEvent(0,1);
-    return env->NewStringUTF(hello.c_str());
-}
+//extern "C" JNIEXPORT jstring JNICALL
+//Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_stringFromJNI(
+//        JNIEnv* env,
+//        jobject /* this */) {
+//    std::string hello = "No static Hello world from C++";
+////    Android_JNI_jniTrendsOnEvent(0,1);
+//    return env->NewStringUTF(hello.c_str());
+//}
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_stringStaticFromJNI(
@@ -31,10 +31,8 @@ Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_stringStaticFromJNI(
 
 
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_notStaticJNIString(
-        JNIEnv* env,
-        jobject jobj) {
+int getMethodID(JNIEnv* env,
+      jobject jobj){
     //非静态方法
     //获取jclass
     jclass jclz = env->GetObjectClass(jobj);
@@ -43,7 +41,14 @@ Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_notStaticJNIString(
     jmethodID jmid = env->GetMethodID(jclz, "notStaticGetRandom", "(I)I");
     //根据返回值，调用相应方法，我这边返回值是int,第三个参数为可变参数，就是调用方法需要传入的参数
     jint int_random = env->CallIntMethod(jobj, jmid, 500);
+    return int_random;
+}
 
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_tangchengyuzhou_jnidemo_jni_NativeJavaJni_notStaticJNIString(
+        JNIEnv* env,
+        jobject jobj) {
+    int int_random=getMethodID(env,jobj);
     //打印
     log_error("int_random #### %d", int_random);
     char buf[10] = {0};
