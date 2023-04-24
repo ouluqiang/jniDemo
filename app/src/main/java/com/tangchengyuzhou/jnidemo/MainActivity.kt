@@ -21,11 +21,6 @@ class MainActivity : AppCompatActivity() {
         var jni=NativeJavaJni()
         NativeJavaJni.nativeSetupJNI()
         // Example of a call to a native method
-//        binding.sampleText.text = NativeJni.stringFromJNI()
-//        lifecycleScope.launch {
-//            binding.tvNotStatic.text = jni.stringFromJNI()
-//            binding.tvStatic.text = NativeJavaJni.stringStaticFromJNI()
-//        }
         binding.tvNotStatic.setOnClickListener {
             i++;
             binding.tvNotStatic.text = jni.notStaticJNIString()
@@ -34,22 +29,14 @@ class MainActivity : AppCompatActivity() {
             i++;
             binding.tvStatic.text = NativeJavaJni.stringStaticFromJNI()
         }
-//        binding.tvNoStaticC.setOnClickListener {
-////            i++;
-//            binding.tvNoStaticC.text = jni.notStaticJNIString()
-//        }
-//        binding.tvStaticC.setOnClickListener {
-////            i++;
-//            binding.tvStaticC.text = NativeJavaJni.stringStaticFromJNI()
-//        }
         binding.tvTrends.setOnClickListener {
             i++;
             binding.tvTrends.text = NativeJavaJni.jniStaticTrendsString("动态 静态c调用java  "+i)
         }
-        binding.tvNoTrends.setOnClickListener {
-            i++;
-            binding.tvNoTrends.text = NativeJavaJni.jniStaticTrendsString("动态 no c调用java  "+i)
-        }
+//        binding.tvNoTrends.setOnClickListener {
+//            i++;
+//            binding.tvNoTrends.text = jni.jniTrendsString("动态 no c调用java  "+i)
+//        }
     }
 
 }

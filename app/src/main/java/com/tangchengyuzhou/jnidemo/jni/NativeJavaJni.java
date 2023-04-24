@@ -56,24 +56,27 @@ public class NativeJavaJni {
      * @param code
      */
     public static void jniStaticTrendsOnEvent(int event,int code){
-        String s="动态 c调用 java event:"+event+"  code:"+code;
+        String s="动态static  c调用 java event:"+event+"  code:"+code;
         Toast.makeText(App.application,s,Toast.LENGTH_SHORT).show();
         Log.e("JNI",s);
     }
-    // 动态 java 调用c
-    public  native  String jniTrendsString(String s);
 
-    /**
-     *
-     * 动态 c调用 java
-     * @param event
-     * @param code
-     */
-    public  void jniTrendsOnEvent(int event,int code){
-        String s="动态 c调用 java event:"+event+"  code:"+code;
-        Toast.makeText(App.application,s,Toast.LENGTH_SHORT).show();
-        Log.e("JNI",s);
-    }
+
+
+//    // 动态 java 调用c
+//    public  native  String jniTrendsString(String s);
+//
+//    /**
+//     *
+//     * 动态 c调用 java
+//     * @param event
+//     * @param code
+//     */
+//    public  void jniTrendsOnEvent(int event,int code){
+//        String s="动态 非静态函数 c调用 java event:"+event+"  code:"+code;
+//        Toast.makeText(App.application,s,Toast.LENGTH_SHORT).show();
+//        Log.e("JNI",s);
+//    }
 
 
 

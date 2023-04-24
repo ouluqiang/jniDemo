@@ -6,6 +6,7 @@
 #include <jni.h>
 #include <android/log.h>
 
+#define SDL_arraysize(array)    (sizeof(array)/sizeof(array[0]))
 //包名
 #define SDL_JAVA_PREFIX                                 com_tangchengyuzhou_jnidemo_jni
 #define CONCAT1(prefix, class, function)                CONCAT2(prefix, class, function)
@@ -24,6 +25,9 @@ static JNINativeMethod SDLActivity_tab[] = {
 
 static jmethodID jniStaticTrendsOnEvent;
 static jmethodID jniStaticTrendsString;
+
+
+
 static pthread_key_t mThreadKey;
 static pthread_once_t key_once = PTHREAD_ONCE_INIT;
 static JavaVM *mJavaVM = NULL;
@@ -106,23 +110,40 @@ Android_JNI_CreateKey_once(void)
     }
 }
 
-
-void Android_JNI_jniStaticTrendsOnEvent(int w, int h)
+static void
+register_methods(JNIEnv *env, const char *classname, JNINativeMethod *methods, int nb)
 {
-    JNIEnv *env = Android_JNI_GetEnv();
-
-//    jstring jhint = (*env)->NewStringUTF(env, (hint ? hint : ""));
-    (*env)->CallStaticVoidMethod(env, mActivityClass, jniStaticTrendsOnEvent, w, h );
-//    (*env)->DeleteLocalRef(env, jhint);
+    jclass clazz = (*env)->FindClass(env, classname);
+    if (clazz == NULL || (*env)->RegisterNatives(env, clazz, methods, nb) < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, "SDL", "Failed to register methods of %s", classname);
+        return;
+    }
 }
 
-/* Activity initialization -- called before SDL_main() to initialize JNI bindings */
-JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniStaticTrendsString)(JNIEnv *env, jclass cls,jstring s)
+
+/* Library init */
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
 {
-    Android_JNI_jniStaticTrendsOnEvent(0,1);
-    return s;
-//    return (*env)->NewStringUTF(env,s);
+    JNIEnv *env = NULL;
+
+    mJavaVM = vm;
+
+    if ((*mJavaVM)->GetEnv(mJavaVM, (void **)&env, JNI_VERSION_1_4) != JNI_OK) {
+        __android_log_print(ANDROID_LOG_ERROR, "SDL", "Failed to get JNI Env");
+        return JNI_VERSION_1_4;
+    }
+
+    register_methods(env, "com/tangchengyuzhou/jnidemo/jni/NativeJavaJni", SDLActivity_tab, SDL_arraysize(SDLActivity_tab));
+//    register_methods(env, "org/libsdl/app/SDLInputConnection", SDLInputConnection_tab, SDL_arraysize(SDLInputConnection_tab));
+//    register_methods(env, "org/libsdl/app/SDLAudioManager", SDLAudioManager_tab, SDL_arraysize(SDLAudioManager_tab));
+//    register_methods(env, "org/libsdl/app/SDLControllerManager", SDLControllerManager_tab, SDL_arraysize(SDLControllerManager_tab));
+
+    return JNI_VERSION_1_4;
 }
+
+
+
+
 JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(JNIEnv *env, jclass cls)
 {
     __android_log_print(ANDROID_LOG_VERBOSE, "SDL", "nativeSetupJNI()");
@@ -149,6 +170,24 @@ JNIEXPORT int JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(JNIEnv *env, jclass cls
 
 }
 
+
+
+void Android_JNI_jniStaticTrendsOnEvent(int w, int h)
+{
+    JNIEnv *env = Android_JNI_GetEnv();
+
+//    jstring jhint = (*env)->NewStringUTF(env, (hint ? hint : ""));
+    (*env)->CallStaticVoidMethod(env, mActivityClass, jniStaticTrendsOnEvent, w, h );
+//    (*env)->DeleteLocalRef(env, jhint);
+}
+
+/* Activity initialization -- called before SDL_main() to initialize JNI bindings */
+JNIEXPORT jstring JNICALL SDL_JAVA_INTERFACE(jniStaticTrendsString)(JNIEnv *env, jclass cls,jstring s)
+{
+    Android_JNI_jniStaticTrendsOnEvent(0,1);
+    return s;
+//    return (*env)->NewStringUTF(env,s);
+}
 
 
 
