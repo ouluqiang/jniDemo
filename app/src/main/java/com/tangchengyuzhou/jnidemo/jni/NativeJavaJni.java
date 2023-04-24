@@ -47,7 +47,7 @@ public class NativeJavaJni {
 
 
     // 动态 java 调用c
-    public static native  String jniTrendsString(String s);
+    public static native  String jniStaticTrendsString(String s);
 
     /**
      *
@@ -55,7 +55,21 @@ public class NativeJavaJni {
      * @param event
      * @param code
      */
-    public static void jniTrendsOnEvent(int event,int code){
+    public static void jniStaticTrendsOnEvent(int event,int code){
+        String s="动态 c调用 java event:"+event+"  code:"+code;
+        Toast.makeText(App.application,s,Toast.LENGTH_SHORT).show();
+        Log.e("JNI",s);
+    }
+    // 动态 java 调用c
+    public  native  String jniTrendsString(String s);
+
+    /**
+     *
+     * 动态 c调用 java
+     * @param event
+     * @param code
+     */
+    public  void jniTrendsOnEvent(int event,int code){
         String s="动态 c调用 java event:"+event+"  code:"+code;
         Toast.makeText(App.application,s,Toast.LENGTH_SHORT).show();
         Log.e("JNI",s);

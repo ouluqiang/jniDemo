@@ -40,7 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="动态 java 调用c c调用java"
+        android:text="动态 静态函数java 调用c c调用java"
+        />
+    <TextView
+        android:id="@+id/tv_no_trends"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="动态 静态函数java 调用c c调用java"
         />
 
 </LinearLayout>

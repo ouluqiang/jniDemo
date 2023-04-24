@@ -44,7 +44,11 @@ class MainActivity : AppCompatActivity() {
 //        }
         binding.tvTrends.setOnClickListener {
             i++;
-            binding.tvTrends.text = NativeJavaJni.jniTrendsString("动态 c调用java  "+i)
+            binding.tvTrends.text = NativeJavaJni.jniStaticTrendsString("动态 静态c调用java  "+i)
+        }
+        binding.tvNoTrends.setOnClickListener {
+            i++;
+            binding.tvNoTrends.text = NativeJavaJni.jniStaticTrendsString("动态 no c调用java  "+i)
         }
     }
 
